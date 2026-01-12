@@ -15,6 +15,8 @@ services:
     volumes:
       # 数据持久化目录
       - ./data:/app/data
+      # 挂载 Docker Socket (启用 Docker 管理功能)
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       # 时区
       - TZ=Asia/Shanghai
