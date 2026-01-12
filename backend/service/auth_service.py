@@ -88,16 +88,17 @@ async def get_current_user(
     修改后的获取当前用户逻辑：
     始终返回默认管理员账号，实现免登录访问。
     """
-    admin_user = db.query(User).filter(User.username == "admin").first()
+    # 获取数据库中的第一个用户（通常是管理员）
+    user = db.query(User).first()
     
-    if not admin_user:
+    if not user:
         # 理论上不会发生，因为 main.py 启动时会创建
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="系统初始化错误：默认管理员不存在"
+            detail="系统初始化错误：数据库无用户"
         )
     
-    return admin_user
+    return user
 
 
 def authenticate_user(db: Session, email: str, password: str) -> Optional[User]:

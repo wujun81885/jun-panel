@@ -42,7 +42,7 @@ RUN mkdir -p data/uploads
 # Environment Variables
 ENV WEB_DIR=web
 ENV UPLOAD_DIR=data/uploads
-ENV DATABASE_URL=sqlite:///./data/jun_panel.db
+ENV DATABASE_URL=sqlite:///./data/jun-panel.db
 
 # Expose port
 EXPOSE 8000
