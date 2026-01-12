@@ -1,0 +1,293 @@
+/**
+ * Dashboard 主页样式
+ * Chrome 新标签页风格 - 中央居中布局
+ */
+
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景 */
+.dashboard-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+.dashboard-bg-image {
+  position: absolute;
+  inset: 0;
+  background-image: var(--wallpaper);
+  background-size: cover;
+  background-position: center;
+  filter: blur(var(--wallpaper-blur));
+}
+
+.dashboard-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* 顶部导航 */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  position: relative;
+  z-index: 10;
+}
+
+.dashboard-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.dashboard-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.dashboard-title svg {
+  font-size: 1.25rem;
+  color: var(--color-primary);
+}
+
+.dashboard-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* 网络切换按钮 */
+.network-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.network-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.network-toggle.external {
+  color: var(--color-primary);
+}
+
+.network-toggle svg {
+  font-size: 1rem;
+}
+
+/* 主内容区 - 上移布局 */
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  padding-top: 60px;
+}
+
+/* 搜索框 - 居中显示 */
+.dashboard-search {
+  width: 100%;
+  max-width: 580px;
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+  z-index: 50; /* 确保搜索下拉菜单在卡片之上 */
+}
+
+/* 导航卡片区域 */
+.dashboard-cards {
+  width: 100%;
+  max-width: 1000px; /* 增加宽度以容纳 6 列 */
+}
+
+/* 卡片网格 - 6列网格布局 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  justify-items: center;
+  gap: var(--spacing-lg);
+  padding: 0 var(--spacing-md);
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+  }
+}
+
+/* 卡片分组 */
+.card-group {
+  width: 100%;
+  margin-bottom: var(--spacing-lg);
+}
+
+.card-group-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  opacity: 0.9;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card-group-header svg {
+  font-size: 1rem;
+}
+
+.card-group-count {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+}
+
+/* 空状态 */
+.dashboard-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: var(--spacing-xl);
+}
+
+.dashboard-empty svg {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.3;
+}
+
+.dashboard-empty h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-text-secondary);
+}
+
+.dashboard-empty p {
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* 侧边栏 - 天气组件 */
+.dashboard-sidebar {
+  position: fixed;
+  top: 70px; /* 调整位置避开 Header */
+  right: var(--spacing-lg);
+  width: 200px;
+  z-index: 10;
+  transition: all var(--transition-normal);
+}
+
+.dashboard-sidebar.show {
+  opacity: 1;
+}
+
+/* 添加按钮 */
+.fab-add {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  right: var(--spacing-xl);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
+  transition: all var(--transition-fast);
+  z-index: 100;
+}
+
+.fab-add:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(79, 195, 247, 0.5);
+}
+
+/* 加载状态 */
+.dashboard-loading {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  color: var(--color-text-muted);
+  background: var(--color-bg-primary);
+}
+
+.dashboard-loading svg {
+  font-size: 2rem;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .dashboard-main {
+    padding: var(--spacing-md);
+    justify-content: flex-start;
+    padding-top: var(--spacing-xl);
+  }
+  
+  .dashboard-search {
+    max-width: 100%;
+  }
+  
+  .dashboard-sidebar {
+    position: static;
+    width: 100%;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .dashboard-sidebar.show {
+    display: block;
+  }
+}

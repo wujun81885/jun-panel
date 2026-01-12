@@ -1,0 +1,105 @@
+/**
+ * 天气预报组件样式
+ */
+
+.weather-widget {
+  padding: var(--spacing-lg);
+}
+
+.weather-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.weather-icon {
+  font-size: 3.5rem;
+  color: var(--color-primary);
+}
+
+.weather-temp {
+  display: flex;
+  align-items: flex-start;
+}
+
+.temp-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.temp-unit {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+}
+
+.weather-info {
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.weather-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.weather-location svg {
+  font-size: 1rem;
+  color: var(--color-primary);
+}
+
+.weather-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.weather-details {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-xl);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.weather-detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.weather-detail-item svg {
+  font-size: 1.1rem;
+  color: var(--color-primary);
+}
+
+.weather-loading,
+.weather-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.weather-loading svg,
+.weather-error svg {
+  font-size: 2rem;
+}
+
+.weather-error svg {
+  color: var(--color-warning);
+}

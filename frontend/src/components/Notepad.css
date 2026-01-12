@@ -1,0 +1,187 @@
+/**
+ * 便签组件样式 - Windows 便签风格
+ */
+
+.notepad-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-lg);
+  animation: fadeIn var(--transition-fast) ease-out;
+}
+
+.notepad-container {
+  width: 100%;
+  max-width: 700px;
+  max-height: 80vh;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp var(--transition-normal) ease-out;
+}
+
+.notepad-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.notepad-header h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.notepad-header h3 svg {
+  color: #fbbf24;
+}
+
+.notepad-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.notepad-add {
+  color: var(--color-primary) !important;
+}
+
+/* 便签网格 */
+.notepad-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.notepad-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-muted);
+}
+
+.notepad-empty svg {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.5;
+}
+
+/* 单个便签 */
+.sticky-note {
+  min-height: 160px;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.sticky-note:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.sticky-note.active {
+  box-shadow: 0 0 0 2px var(--color-primary), 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.sticky-note-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xs);
+}
+
+.sticky-note-colors {
+  display: flex;
+  gap: 4px;
+}
+
+.color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.color-dot:hover {
+  transform: scale(1.2);
+}
+
+.color-dot.active {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.sticky-note-delete {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 0.75rem;
+  transition: all var(--transition-fast);
+}
+
+.sticky-note-delete:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.sticky-note-content {
+  flex: 1;
+  padding: var(--spacing-xs);
+  background: transparent;
+  border: none;
+  resize: none;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.8);
+  font-family: inherit;
+}
+
+.sticky-note-content::placeholder {
+  color: rgba(0, 0, 0, 0.35);
+}
+
+.sticky-note-content:focus {
+  outline: none;
+}
+
+.sticky-note-footer {
+  font-size: 0.7rem;
+  color: rgba(0, 0, 0, 0.4);
+  text-align: right;
+  padding-top: var(--spacing-xs);
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+  .notepad-grid {
+    grid-template-columns: 1fr;
+  }
+}

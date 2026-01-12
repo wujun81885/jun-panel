@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  jun-panel:
+    container_name: jun-panel
+    # 构建当前目录
+    build: .
+    image: jun-panel:latest
+    restart: unless-stopped
+    ports:
+      # 左边是NAS访问端口，右边是容器端口(不要改)
+      # 如果 3030 冲突，可以改左边的数字，例如 "8888:8000"
+      - "3030:8000"
+    volumes:
+      # 挂载数据目录，确保重启后数据还在
+      - ./data:/app/data
+    environment:
+      - TZ=Asia/Shanghai
+      - PGID=1000
+      - PUID=1000

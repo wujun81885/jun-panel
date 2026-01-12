@@ -1,0 +1,143 @@
+/**
+ * Docker 面板组件样式
+ */
+
+.docker-panel {
+  padding: var(--spacing-md);
+}
+
+.docker-panel-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.docker-panel-header > svg {
+  font-size: 1.2rem;
+  color: #2496ed; /* Docker 品牌色 */
+}
+
+.docker-panel-count {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.docker-panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.docker-container-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.docker-container-item:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.docker-container-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.docker-container-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.docker-container-image {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.docker-container-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.docker-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.docker-container-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.docker-container-actions .btn-icon {
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+}
+
+.docker-start-btn {
+  color: var(--color-success) !important;
+}
+
+.docker-panel-loading,
+.docker-panel-error,
+.docker-panel-empty,
+.docker-panel-unavailable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.docker-panel-unavailable svg {
+  font-size: 2.5rem;
+  opacity: 0.5;
+}
+
+.docker-panel-unavailable p {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.docker-panel-unavailable span {
+  font-size: 0.8rem;
+}
+
+.docker-panel-error {
+  color: var(--color-danger);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .docker-container-status {
+    display: none;
+  }
+}

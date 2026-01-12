@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  jun-panel:
+    container_name: jun-panel
+    # ================= 关键配置 =================
+    # 将下面的 USERNAME/REPO 替换为你的 GitHub 用户名和仓库名 (必须全是小写!)
+    # 示例: image: ghcr.io/zhangsan/jun-panel:latest
+    image: ghcr.io/USERNAME/REPO:latest
+    # ==========================================
+    
+    restart: unless-stopped
+    ports:
+      # 端口映射: 3030 可改为任何未占用的端口
+      - "3030:8000"
+    volumes:
+      # 数据持久化目录
+      - ./data:/app/data
+    environment:
+      # 时区
+      - TZ=Asia/Shanghai
