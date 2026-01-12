@@ -5,7 +5,7 @@ WORKDIR /app/frontend
 
 # Copy dependencies first to cache
 COPY frontend/package*.json ./
-RUN npm install registry=https://registry.npmmirror.com
+RUN npm install --registry=https://registry.npmmirror.com
 
 # Copy source
 COPY frontend/ ./
