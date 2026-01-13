@@ -2,12 +2,49 @@
  * Jun-Panel 前端入口
  * 配置路由和全局状态
  */
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Dashboard, SettingsPage } from './pages';
+import { settingsApi } from './api';
 import './styles/index.css';
 
 function App() {
+  // 初始化加载主题
+  useEffect(() => {
+    const initTheme = async () => {
+      try {
+        const settings = await settingsApi.get();
+        if (settings.theme) {
+          document.documentElement.setAttribute('data-theme', settings.theme);
+        }
+        
+        // 注入自定义 CSS
+        if (settings.custom_css) {
+          const style = document.createElement('style');
+          style.id = 'custom-css';
+          style.innerHTML = settings.custom_css;
+          document.head.appendChild(style);
+        }
+
+        // 注入自定义 JS
+        if (settings.custom_js) {
+          try {
+            const script = document.createElement('script');
+            script.id = 'custom-js';
+            script.innerHTML = settings.custom_js;
+            document.body.appendChild(script);
+          } catch (err) {
+            console.error('Failed to execute custom JS:', err);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load theme settings', e);
+      }
+    };
+    initTheme();
+  }, []);
+
   return (
     <BrowserRouter>
       {/* 全局 Toast 通知 */}

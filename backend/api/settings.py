@@ -115,6 +115,11 @@ async def reset_settings(
         setting.card_style = "normal"
         setting.custom_css = None
         setting.custom_js = None
+        # 组件显示开关
+        setting.show_weather = True
+        setting.show_system_monitor = True
+        setting.show_docker_panel = True
+        setting.show_notepad = True
         
         db.commit()
     

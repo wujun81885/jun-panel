@@ -1,8 +1,9 @@
 /**
  * 天气预报组件
  * 使用 Open-Meteo 免费 API（无需 Key，支持 CORS）
+ * 支持自定义城市搜索
  */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Icon } from "@iconify/react";
 import "./Weather.css";
 
@@ -15,9 +16,28 @@ interface WeatherData {
   windSpeed: number;
 }
 
-// 重庆坐标
-const CHONGQING_LAT = 29.5628;
-const CHONGQING_LON = 106.5528;
+interface CityOption {
+  name: string;
+  country: string;
+  admin1?: string;
+  latitude: number;
+  longitude: number;
+}
+
+interface SavedCity {
+  name: string;
+  latitude: number;
+  longitude: number;
+}
+
+const STORAGE_KEY = 'jun-panel-weather-city';
+
+// 默认城市（东京）
+const DEFAULT_CITY: SavedCity = {
+  name: "东京",
+  latitude: 35.6762,
+  longitude: 139.6503,
+};
 
 // 天气代码映射
 const WEATHER_CODES: Record<number, { desc: string; icon: string }> = {
@@ -48,13 +68,44 @@ export function Weather() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [city, setCity] = useState<SavedCity>(DEFAULT_CITY);
+  
+  // 城市搜索状态
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<CityOption[]>([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
 
+  // 加载保存的城市
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setCity(JSON.parse(saved));
+      } catch {
+        setCity(DEFAULT_CITY);
+      }
+    }
+  }, []);
+
+  // 点击外部关闭搜索
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // 获取天气数据
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        // 使用 Open-Meteo API（免费，无需 API Key，支持 CORS）
         const response = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${CHONGQING_LAT}&longitude=${CHONGQING_LON}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=Asia%2FShanghai`
+          `https://api.open-meteo.com/v1/forecast?latitude=${city.latitude}&longitude=${city.longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=auto`
         );
 
         if (!response.ok) {
@@ -67,7 +118,7 @@ export function Weather() {
         const weatherInfo = WEATHER_CODES[weatherCode] || { desc: "未知", icon: "mdi:weather-cloudy" };
 
         setWeather({
-          location: "重庆",
+          location: city.name,
           temperature: Math.round(current.temperature_2m),
           description: weatherInfo.desc,
           icon: weatherInfo.icon,
@@ -84,11 +135,59 @@ export function Weather() {
     };
 
     fetchWeather();
-
-    // 每 30 分钟刷新一次
     const interval = setInterval(fetchWeather, 30 * 60 * 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [city]);
+
+  // 搜索城市
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const response = await fetch(
+          `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(searchQuery)}&count=5&language=zh&format=json`
+        );
+        const data = await response.json();
+        if (data.results) {
+          setSearchResults(data.results.map((r: any) => ({
+            name: r.name,
+            country: r.country || "",
+            admin1: r.admin1,
+            latitude: r.latitude,
+            longitude: r.longitude,
+          })));
+        } else {
+          setSearchResults([]);
+        }
+      } catch {
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // 选择城市
+  const handleSelectCity = (option: CityOption) => {
+    const newCity: SavedCity = {
+      name: option.name,
+      latitude: option.latitude,
+      longitude: option.longitude,
+    };
+    setCity(newCity);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newCity));
+    setIsSearchOpen(false);
+    setSearchQuery("");
+    setSearchResults([]);
+    setIsLoading(true);
+  };
 
   if (isLoading) {
     return (
@@ -123,9 +222,50 @@ export function Weather() {
       </div>
 
       <div className="weather-info">
-        <div className="weather-location">
-          <Icon icon="mdi:map-marker" />
-          <span>{weather.location}</span>
+        <div className="weather-location" ref={searchRef}>
+          <button 
+            className="weather-location-btn"
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+            title="点击更换城市"
+          >
+            <Icon icon="mdi:map-marker" />
+            <span>{weather.location}</span>
+            <Icon icon="mdi:chevron-down" className="weather-location-arrow" />
+          </button>
+          
+          {isSearchOpen && (
+            <div className="weather-city-search">
+              <div className="weather-search-input-wrap">
+                <Icon icon="mdi:magnify" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="搜索城市..."
+                  autoFocus
+                />
+                {isSearching && <Icon icon="mdi:loading" className="animate-spin" />}
+              </div>
+              
+              {searchResults.length > 0 && (
+                <ul className="weather-search-results">
+                  {searchResults.map((r, i) => (
+                    <li key={i} onClick={() => handleSelectCity(r)}>
+                      <Icon icon="mdi:map-marker-outline" />
+                      <span className="city-name">{r.name}</span>
+                      <span className="city-region">
+                        {r.admin1 ? `${r.admin1}, ` : ""}{r.country}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              
+              {searchQuery && !isSearching && searchResults.length === 0 && (
+                <div className="weather-no-results">未找到匹配城市</div>
+              )}
+            </div>
+          )}
         </div>
         <div className="weather-desc">{weather.description}</div>
       </div>

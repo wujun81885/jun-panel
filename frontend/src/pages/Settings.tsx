@@ -89,6 +89,39 @@ export function SettingsPage() {
 
             <div className="setting-item">
               <div className="setting-info">
+                <span className="setting-label">主题模式</span>
+                <span className="setting-desc">切换深色或浅色外观</span>
+              </div>
+              <div className="theme-toggle-group">
+                <button
+                  className={`theme-option ${settings?.theme === 'dark' ? 'active' : ''}`}
+                  onClick={() => {
+                    if (settings) {
+                      setSettings({ ...settings, theme: 'dark' });
+                      document.documentElement.setAttribute('data-theme', 'dark');
+                    }
+                  }}
+                >
+                  <Icon icon="mdi:weather-night" />
+                  深色
+                </button>
+                <button
+                  className={`theme-option ${settings?.theme === 'light' ? 'active' : ''}`}
+                  onClick={() => {
+                    if (settings) {
+                      setSettings({ ...settings, theme: 'light' });
+                      document.documentElement.setAttribute('data-theme', 'light');
+                    }
+                  }}
+                >
+                  <Icon icon="mdi:white-balance-sunny" />
+                  浅色
+                </button>
+              </div>
+            </div>
+
+            <div className="setting-item">
+              <div className="setting-info">
                 <span className="setting-label">显示搜索框</span>
                 <span className="setting-desc">在主页顶部显示搜索框</span>
               </div>
@@ -177,6 +210,104 @@ export function SettingsPage() {
                 />
                 <span className="toggle-slider"></span>
               </label>
+            </div>
+          </section>
+
+          {/* 组件显示 */}
+          <section className="settings-section">
+            <h2>组件显示</h2>
+
+            <div className="setting-item">
+              <div className="setting-info">
+                <span className="setting-label">天气组件</span>
+                <span className="setting-desc">显示天气预报小部件</span>
+              </div>
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={settings?.show_weather ?? true}
+                  onChange={(e) => settings && setSettings({ ...settings, show_weather: e.target.checked })}
+                />
+                <span className="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div className="setting-item">
+              <div className="setting-info">
+                <span className="setting-label">系统监控</span>
+                <span className="setting-desc">显示 CPU/内存/磁盘状态</span>
+              </div>
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={settings?.show_system_monitor ?? true}
+                  onChange={(e) => settings && setSettings({ ...settings, show_system_monitor: e.target.checked })}
+                />
+                <span className="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div className="setting-item">
+              <div className="setting-info">
+                <span className="setting-label">Docker 面板</span>
+                <span className="setting-desc">显示容器管理面板</span>
+              </div>
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={settings?.show_docker_panel ?? true}
+                  onChange={(e) => settings && setSettings({ ...settings, show_docker_panel: e.target.checked })}
+                />
+                <span className="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div className="setting-item">
+              <div className="setting-info">
+                <span className="setting-label">便签</span>
+                <span className="setting-desc">显示便签入口按钮</span>
+              </div>
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={settings?.show_notepad ?? true}
+                  onChange={(e) => settings && setSettings({ ...settings, show_notepad: e.target.checked })}
+                />
+                <span className="toggle-slider"></span>
+              </label>
+            </div>
+          </section>
+
+          {/* 自定义代码 */}
+          <section className="settings-section">
+            <h2>自定义代码</h2>
+            
+            <div className="setting-item">
+              <div className="setting-info" style={{ width: '100%' }}>
+                <span className="setting-label">自定义 CSS</span>
+                <span className="setting-desc">输入 CSS 代码以自定义样式</span>
+                <textarea 
+                  className="code-editor"
+                  rows={5}
+                  value={settings?.custom_css || ''}
+                  onChange={(e) => settings && setSettings({ ...settings, custom_css: e.target.value })}
+                  placeholder="/* 例如: body { background: #000; } */"
+                />
+              </div>
+            </div>
+
+            <div className="setting-item">
+              <div className="setting-info" style={{ width: '100%' }}>
+                <span className="setting-label">自定义 JS</span>
+                <span className="setting-desc">输入 JavaScript 代码以增强功能</span>
+                <textarea 
+                  className="code-editor"
+                  rows={5}
+                  value={settings?.custom_js || ''}
+                  onChange={(e) => settings && setSettings({ ...settings, custom_js: e.target.value })}
+                  placeholder="// 例如: console.log('Hello');"
+                />
+              </div>
             </div>
           </section>
         </div>

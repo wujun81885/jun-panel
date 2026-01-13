@@ -1,0 +1,170 @@
+/**
+ * 健康检查面板样式
+ */
+
+.health-check {
+  padding: var(--spacing-md);
+}
+
+.health-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+}
+
+.health-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.health-title svg {
+  color: var(--color-danger);
+  font-size: 1.2rem;
+}
+
+.health-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.health-config {
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.health-config-input {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.health-config-input input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.health-config-input input:focus {
+  border-color: var(--color-primary);
+}
+
+.health-config-input input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.btn-sm {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.85rem;
+}
+
+.health-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.health-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.health-item:last-child {
+  border-bottom: none;
+}
+
+.health-item svg {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.status-online {
+  color: var(--color-success);
+}
+
+.status-offline {
+  color: var(--color-danger);
+}
+
+.status-unknown {
+  color: var(--color-text-muted);
+}
+
+.health-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.health-name {
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.health-latency {
+  color: var(--color-success);
+  font-size: 0.75rem;
+}
+
+.health-error {
+  color: var(--color-danger);
+  font-size: 0.75rem;
+}
+
+.health-remove {
+  background: none;
+  border: none;
+  padding: var(--spacing-xs);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.health-remove:hover {
+  color: var(--color-danger);
+}
+
+.health-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.health-empty svg {
+  font-size: 2rem;
+  opacity: 0.5;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  text-decoration: underline;
+}
+
+.btn-link:hover {
+  color: var(--color-primary-light);
+}

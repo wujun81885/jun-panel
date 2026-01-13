@@ -13,7 +13,7 @@ from repository.database import init_db, get_db, SessionLocal
 from model.user import User
 from model.setting import Setting
 from service.auth_service import get_password_hash
-from api import cards, groups, system, docker, settings, upload
+from api import cards, groups, system, docker, settings, upload, health
 
 # 配置日志
 logging.basicConfig(
@@ -80,7 +80,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Jun-Panel API",
     description="Jun-Panel 导航面板后端 API",
-    version="1.0.0",
+    version="1.1.0",
     lifespan=lifespan
 )
 
@@ -101,6 +101,7 @@ app.include_router(system.router)
 app.include_router(docker.router)
 app.include_router(settings.router)
 app.include_router(upload.router)
+app.include_router(health.router)
 
 # 静态文件服务（上传的文件）
 UPLOAD_DIR = os.getenv("UPLOAD_DIR", "data/uploads")
@@ -156,7 +157,7 @@ else:
         """根路径提示"""
         return {
             "name": "Jun-Panel",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "status": "running",
             "message": "后端 API 正常运行中。请访问 /docs 查看文档，或部署前端页面。"
         }

@@ -148,6 +148,11 @@ class SettingBase(BaseModel):
     card_style: str = "normal"
     custom_css: Optional[str] = None
     custom_js: Optional[str] = None
+    # 组件显示开关
+    show_weather: bool = True
+    show_system_monitor: bool = True
+    show_docker_panel: bool = True
+    show_notepad: bool = True
 
 
 class SettingUpdate(BaseModel):
@@ -161,6 +166,11 @@ class SettingUpdate(BaseModel):
     card_style: Optional[str] = None
     custom_css: Optional[str] = None
     custom_js: Optional[str] = None
+    # 组件显示开关
+    show_weather: Optional[bool] = None
+    show_system_monitor: Optional[bool] = None
+    show_docker_panel: Optional[bool] = None
+    show_notepad: Optional[bool] = None
 
 
 class SettingResponse(SettingBase):

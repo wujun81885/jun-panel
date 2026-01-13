@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-import { NavCard, SearchBar, Weather, CardModal, IframeModal, DateTime, Notepad, VercelGlobe } from '../components';
+import { NavCard, SearchBar, Weather, CardModal, IframeModal, DateTime, Notepad, VercelGlobe, SystemMonitor, DockerPanel, Clock, TodoList, HealthCheck } from '../components';
 import { cardsApi, groupsApi, settingsApi } from '../api';
 
 import type { Card, CardCreate, CardUpdate, Group, Settings, SortItem } from '../types';
@@ -39,6 +39,7 @@ export function Dashboard() {
   const [settings, setSettings] = useState<Settings | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showNotepad, setShowNotepad] = useState(false);
+  const [showTodo, setShowTodo] = useState(false);
   
   // 卡片管理模态框状态
   const [showCardModal, setShowCardModal] = useState(false);
@@ -54,6 +55,39 @@ export function Dashboard() {
   useEffect(() => {
     loadData();
   }, []);
+
+  // 键盘快捷键
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl/Cmd + K: 聚焦搜索
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+        if (searchInput) searchInput.focus();
+      }
+      
+      // Ctrl/Cmd + B: 添加卡片
+      if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
+        e.preventDefault();
+        handleAddCard();
+      }
+
+      // Ctrl/Cmd + ,: 打开设置
+      if ((e.ctrlKey || e.metaKey) && e.key === ',') {
+        e.preventDefault();
+        navigate('/settings');
+      }
+
+      // Ctrl/Cmd + .: 切换备忘录
+      if ((e.ctrlKey || e.metaKey) && e.key === '.') {
+        e.preventDefault();
+        setShowNotepad(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [navigate]);
   
   const loadData = async () => {
     try {
@@ -367,8 +401,13 @@ export function Dashboard() {
       {/* 顶部导航 */}
       <header className="dashboard-header">
         <div className="dashboard-header-left">
-          <button className="btn-icon" onClick={() => setShowNotepad(true)} title="备忘录">
-            <Icon icon="mdi:note-text" />
+          {(settings?.show_notepad ?? true) && (
+            <button className="btn-icon" onClick={() => setShowNotepad(true)} title="备忘录">
+              <Icon icon="mdi:note-text" />
+            </button>
+          )}
+          <button className="btn-icon" onClick={() => setShowTodo(true)} title="待办事项">
+            <Icon icon="mdi:checkbox-marked-circle-outline" />
           </button>
           <h1 className="dashboard-title">
             <Icon icon="mdi:view-dashboard" />
@@ -497,9 +536,13 @@ export function Dashboard() {
           </section>
         </DndContext>
         
-        {/* 侧边栏 - 天气预报（始终显示） */}
+        {/* 侧边栏 - 天气预报和系统状态 */}
         <aside className="dashboard-sidebar show">
-          <Weather />
+          <Clock />
+          {(settings?.show_weather ?? true) && <Weather />}
+          {(settings?.show_system_monitor ?? true) && <SystemMonitor />}
+          {(settings?.show_docker_panel ?? true) && <DockerPanel />}
+          <HealthCheck />
         </aside>
       </main>
       
@@ -527,9 +570,17 @@ export function Dashboard() {
       />
       
       {/* 快捷备忘录 */}
-      <Notepad
-        isOpen={showNotepad}
-        onClose={() => setShowNotepad(false)}
+      {(settings?.show_notepad ?? true) && (
+        <Notepad
+          isOpen={showNotepad}
+          onClose={() => setShowNotepad(false)}
+        />
+      )}
+      
+      {/* 待办事项 */}
+      <TodoList
+        isOpen={showTodo}
+        onClose={() => setShowTodo(false)}
       />
     </div>
   );

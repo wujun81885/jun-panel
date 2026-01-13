@@ -34,6 +34,12 @@ class Setting(Base):
     custom_css = Column(Text, nullable=True)
     custom_js = Column(Text, nullable=True)
     
+    # 组件显示开关
+    show_weather = Column(Boolean, default=True)  # 显示天气组件
+    show_system_monitor = Column(Boolean, default=True)  # 显示系统监控
+    show_docker_panel = Column(Boolean, default=True)  # 显示 Docker 面板
+    show_notepad = Column(Boolean, default=True)  # 显示便签
+    
     # 时间戳
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

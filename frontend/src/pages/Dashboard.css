@@ -132,163 +132,79 @@
 }
 
 /* 响应式调整 */
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
   .card-grid {
     grid-template-columns: repeat(5, 1fr);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .card-grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .dashboard-sidebar {
+    width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-main {
+    padding: var(--spacing-md);
+    padding-top: var(--spacing-lg);
+    display: block; /* 取消 flex 居中，允许正常文档流 */
+  }
+  
+  .dashboard-search {
+    max-width: 100%;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    padding: 0;
+  }
+  
+  /* 移动端侧边栏改为底部堆叠 */
+  .dashboard-sidebar {
+    position: static;
+    width: 100%;
+    margin-top: var(--spacing-xl);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+  }
+  
+  .dashboard-sidebar > * {
+    margin-bottom: 0 !important; /* 覆盖组件默认 margin */
+  }
+  
+  .fab-add {
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
   }
 }
 
 @media (max-width: 480px) {
   .card-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-md);
-  }
-}
-
-/* 卡片分组 */
-.card-group {
-  width: 100%;
-  margin-bottom: var(--spacing-lg);
-}
-
-.card-group-header {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-md);
-  margin-top: var(--spacing-lg);
-  margin-bottom: var(--spacing-sm);
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  opacity: 0.9;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.card-group-header svg {
-  font-size: 1rem;
-}
-
-.card-group-count {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 0.75rem;
-}
-
-/* 空状态 */
-.dashboard-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: var(--color-text-muted);
-  padding: var(--spacing-xl);
-}
-
-.dashboard-empty svg {
-  font-size: 4rem;
-  margin-bottom: var(--spacing-md);
-  opacity: 0.3;
-}
-
-.dashboard-empty h3 {
-  font-size: 1.25rem;
-  margin-bottom: var(--spacing-xs);
-  color: var(--color-text-secondary);
-}
-
-.dashboard-empty p {
-  font-size: 0.9rem;
-  margin-bottom: var(--spacing-lg);
-}
-
-/* 侧边栏 - 天气组件 */
-.dashboard-sidebar {
-  position: fixed;
-  top: 70px; /* 调整位置避开 Header */
-  right: var(--spacing-lg);
-  width: 200px;
-  z-index: 10;
-  transition: all var(--transition-normal);
-}
-
-.dashboard-sidebar.show {
-  opacity: 1;
-}
-
-/* 添加按钮 */
-.fab-add {
-  position: fixed;
-  bottom: var(--spacing-xl);
-  right: var(--spacing-xl);
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  color: white;
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
-  transition: all var(--transition-fast);
-  z-index: 100;
-}
-
-.fab-add:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(79, 195, 247, 0.5);
-}
-
-/* 加载状态 */
-.dashboard-loading {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-md);
-  color: var(--color-text-muted);
-  background: var(--color-bg-primary);
-}
-
-.dashboard-loading svg {
-  font-size: 2rem;
-}
-
-/* 响应式 */
-@media (max-width: 768px) {
-  .dashboard-main {
-    padding: var(--spacing-md);
-    justify-content: flex-start;
-    padding-top: var(--spacing-xl);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
   }
   
-  .dashboard-search {
-    max-width: 100%;
+  .dashboard-title span:last-child {
+    display: none; /* 隐藏标题文字，只留图标 */
   }
   
-  .dashboard-sidebar {
-    position: static;
-    width: 100%;
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-    margin-bottom: var(--spacing-lg);
+  .network-toggle span {
+    display: none;
   }
   
-  .dashboard-sidebar.show {
-    display: block;
+  .network-toggle {
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-md);
   }
 }

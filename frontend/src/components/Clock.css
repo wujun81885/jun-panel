@@ -1,0 +1,55 @@
+/**
+ * 时钟组件样式
+ */
+
+.clock-widget {
+  padding: var(--spacing-lg);
+  text-align: center;
+  position: relative;
+}
+
+.clock-time {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  color: var(--color-text-primary);
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin-bottom: var(--spacing-sm);
+}
+
+.clock-time:hover {
+  color: var(--color-primary);
+}
+
+.clock-date {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.clock-format-toggle {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clock-format-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--color-text-primary);
+}
+
+.clock-format-toggle svg {
+  font-size: 0.9rem;
+}

@@ -104,6 +104,11 @@ export interface Settings {
   card_style: string;
   custom_css?: string;
   custom_js?: string;
+  // 组件显示开关
+  show_weather: boolean;
+  show_system_monitor: boolean;
+  show_docker_panel: boolean;
+  show_notepad: boolean;
 }
 
 export interface SettingsUpdate {
@@ -116,6 +121,11 @@ export interface SettingsUpdate {
   card_style?: string;
   custom_css?: string;
   custom_js?: string;
+  // 组件显示开关
+  show_weather?: boolean;
+  show_system_monitor?: boolean;
+  show_docker_panel?: boolean;
+  show_notepad?: boolean;
 }
 
 // ==================== 系统状态相关 ====================
