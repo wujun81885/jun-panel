@@ -36,6 +36,24 @@ docker-compose up -d
 
 > ⚠️ 首次登录后请立即修改密码！
 
+## 🔄 如何更新
+
+如果你使用 Docker Compose 部署，请执行以下命令更新到最新版本：
+
+```bash
+# 1. 进入项目目录
+cd jun-panel
+
+# 2. 拉取最新代码
+git pull
+
+# 3. 重新构建并启动容器
+docker-compose up -d --build
+
+# 4. 清理旧镜像（可选）
+docker image prune -f
+```
+
 ## 📦 手动构建
 
 ```bash
